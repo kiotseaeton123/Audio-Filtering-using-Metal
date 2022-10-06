@@ -9,14 +9,12 @@
 import UIKit
 import Metal
 
-
-
-
-
 class ViewController: UIViewController {
-
+    
+    @IBOutlet weak var frequencyLabel: UILabel!
+    
     struct AudioConstants{
-        static let AUDIO_BUFFER_SIZE = 1024*4
+        static let AUDIO_BUFFER_SIZE = 1024*8
     }
     
     // setup audio model
@@ -25,26 +23,35 @@ class ViewController: UIViewController {
         return MetalGraph(userView: self.view)
     }()
     
+    override func viewWillDisappear(_ animated: Bool) {
+        audio.pause()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         if let graph = self.graph{
             graph.setBackgroundColor(r: 0, g: 0, b: 0, a: 1)
+            
             // add in graphs for display
             graph.addGraph(withName: "fft",
                             shouldNormalizeForFFT: true,
                             numPointsInGraph: AudioConstants.AUDIO_BUFFER_SIZE/2)
             
-            graph.addGraph(withName: "time",
-                numPointsInGraph: AudioConstants.AUDIO_BUFFER_SIZE)
             
-            graph.makeGrids() // add grids to graph
+//            graph.addGraph(withName: "equalize",
+//                            shouldNormalizeForFFT: true,
+//                            numPointsInGraph: 20)
+//
+//            graph.addGraph(withName: "time",
+//                numPointsInGraph: AudioConstants.AUDIO_BUFFER_SIZE)
+            
+            graph.makeGrids() 
         }
         
-        // start up the audio model here, querying microphone
+        
         audio.startMicrophoneProcessing(withFps: 10)
-
+//        audio.startAudioProcessing(withFps: 10)
         audio.play()
         
         // run the loop for updating the graph peridocially
@@ -54,6 +61,7 @@ class ViewController: UIViewController {
             repeats: true)
        
     }
+
     
     // periodically, update the graph with refreshed FFT Data
     @objc
@@ -63,15 +71,20 @@ class ViewController: UIViewController {
             forKey: "fft"
         )
         
-        self.graph?.updateGraph(
-            data: self.audio.timeData,
-            forKey: "time"
-        )
+        let frequencies:[Float] = audio.findLoudest()
         
+        frequencyLabel.text = "Frequencies: \(Int(frequencies[0]) * 48000 / AudioConstants.AUDIO_BUFFER_SIZE) \(Int(frequencies[1]) * 48000 / AudioConstants.AUDIO_BUFFER_SIZE)"
         
-        
+//        self.graph?.updateGraph(
+//            data: self.audio.equalizedArray,
+//            forKey: "equalize"
+//        )
+////
+//        self.graph?.updateGraph(
+//            data: self.audio.timeData,
+//            forKey: "time"
+//        )
     }
-    
     
 
 }

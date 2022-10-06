@@ -21,6 +21,7 @@
 		B65B5A7D24F458D700E74E73 /* FFTHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A7B24F458D700E74E73 /* FFTHelper.m */; };
 		B65B5A7F24F4798B00E74E73 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A7E24F4798B00E74E73 /* Shaders.metal */; };
 		B65B5A8124F4AAB800E74E73 /* MetalGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A8024F4AAB800E74E73 /* MetalGraph.swift */; };
+		D5151DF128EE2FB500965836 /* BViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5151DF028EE2FB500965836 /* BViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 		B65B5A7C24F458D700E74E73 /* FFTHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFTHelper.h; path = AudioDSPUtils/FFTHelper.h; sourceTree = SOURCE_ROOT; };
 		B65B5A7E24F4798B00E74E73 /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 		B65B5A8024F4AAB800E74E73 /* MetalGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalGraph.swift; sourceTree = "<group>"; };
+		D5151DF028EE2FB500965836 /* BViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +91,7 @@
 				B65B5A5924F4409F00E74E73 /* AppDelegate.swift */,
 				B65B5A5B24F4409F00E74E73 /* SceneDelegate.swift */,
 				B65B5A5D24F4409F00E74E73 /* ViewController.swift */,
+				D5151DF028EE2FB500965836 /* BViewController.swift */,
 				B65B5A8024F4AAB800E74E73 /* MetalGraph.swift */,
 				B65B5A7924F4523C00E74E73 /* AudioModel.swift */,
 				B65B5A5F24F4409F00E74E73 /* Main.storyboard */,
@@ -181,6 +184,7 @@
 				B65B5A8124F4AAB800E74E73 /* MetalGraph.swift in Sources */,
 				B65B5A5E24F4409F00E74E73 /* ViewController.swift in Sources */,
 				B65B5A5A24F4409F00E74E73 /* AppDelegate.swift in Sources */,
+				D5151DF128EE2FB500965836 /* BViewController.swift in Sources */,
 				B65B5A7F24F4798B00E74E73 /* Shaders.metal in Sources */,
 				B65B5A7D24F458D700E74E73 /* FFTHelper.m in Sources */,
 				B65B5A5C24F4409F00E74E73 /* SceneDelegate.swift in Sources */,
