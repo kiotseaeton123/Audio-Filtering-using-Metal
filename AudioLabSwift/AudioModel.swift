@@ -6,6 +6,10 @@
 //  Copyright © 2020 Eric Larson. All rights reserved.
 //
 
+//winnie houng
+//blake miller
+//jadon strong
+
 import Foundation
 import Accelerate
 
@@ -167,28 +171,45 @@ class AudioModel {
     private func indexToFreq(index:Int)->Float{
         return (Float(audioManager!.samplingRate) / Float(BUFFER_SIZE)) * Float(index)
     }
-    
+//    func findDoppler2(playedFreq: Int) -> String{
+//        var leftMax: Float = 0
+//        var leftMaxIdx: Int = 0
+//        var rightMax: Float = 0
+//        var rightMaxIdx: Int = 0
+//        let playedIndex = playedFreq / (48000 / BUFFER_SIZE)
+//        
+//        vDSP_maxvi(&fftData[playedIndex-1000], 1, &leftMax, &leftMaxIdx, vDSP_Length(1000))
+//        vDSP_maxvi(&fftData[playedIndex], 1, &rightMax, &rightMaxIdx, vDSP_Length(1000))
+//    
+//        if(rightMax>leftMax){
+//            return "toward: \(rightMax)"
+//        }
+//        else{
+//            return "away: \(leftMax)"
+//        }
+//    }
     func findDoppler(playedFreq: Int) -> String{
         var largestMax: Float = -1000.0
         var secondMax: Float = -1000.0
-        
+        let playedIndex = playedFreq / (48000 / BUFFER_SIZE)
         var index: Int = 0
         var largestIndex: Int = 0
         var secondIndex: Int = 0
-        let windowSize = 8
-        let captureRange = 20
-        let sensitivity = 4
-        for i in playedFreq-captureRange ..< (playedFreq+captureRange - windowSize){
+        let windowSize = 15
+        let captureRange = 30
+        let sensitivity :Int = 17
+        
+        for i in playedIndex-captureRange ..< (playedIndex+captureRange - windowSize){
             var temp_max:Float = -1000.0
             var temp_index: vDSP_Length = 0
             //store frame in tempFrame
-            var tempFrame:[Float] = Array(fftData[i ..< (i + 8)])
+            var tempFrame:[Float] = Array(fftData[i ..< (i + windowSize)])
             //find max in frame
-            vDSP_maxvi(&tempFrame, 1, &temp_max, &temp_index, vDSP_Length(8))
+            vDSP_maxvi(&tempFrame, 1, &temp_max, &temp_index, vDSP_Length(windowSize))
             index = Int(temp_index)
 //            print(i + index)
             //check if frame is local max
-            if(index == 4){
+            if(index == windowSize/2){
 
                 if(temp_max > secondMax){
                     
@@ -213,20 +234,23 @@ class AudioModel {
             }
             
         }
-//        print(max)
-//        print(printIndex)
+        print("largest: \(fftData[largestIndex])")
+        print("2nd: \(fftData[secondIndex])")
+        
         let returnMe: [Float] = [Float(largestIndex), Float(secondIndex)]
-        if(returnMe[1]>(Float(playedFreq)+Float(sensitivity))){
-            return "Toward Freq: \(indexToFreq(index: playedFreq)), 2nd: \(indexToFreq(index: Int(returnMe[1])))"
+        if(returnMe[1]>(Float(playedIndex)+Float(sensitivity))){
+            return "Toward Freq: \(playedFreq), 2nd: \(returnMe[1] * Float((48000 / BUFFER_SIZE)))"
         }
-        else if(returnMe[1]<(Float(playedFreq)-Float(sensitivity))){
-            return "Away Freq: \(indexToFreq(index: playedFreq)), 2nd: \(indexToFreq(index: Int(returnMe[1])))"
+        else if(returnMe[1]<(Float(playedIndex)-Float(sensitivity))){
+            return "Away Freq: \(playedFreq), 2nd: \(returnMe[1] * Float((48000 / BUFFER_SIZE)))"
         }
         else{
-            return "Freq: \(indexToFreq(index: playedFreq))"
+            return "Stationary Freq: \(playedFreq), 2nd: \(returnMe[1] * Float((48000 / BUFFER_SIZE)))"
         }
     
     }
+    
+    
     
     func findLoudest() -> [Float]{
         

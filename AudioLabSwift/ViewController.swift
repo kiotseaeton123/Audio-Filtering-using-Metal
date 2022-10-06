@@ -6,6 +6,10 @@
 //  Copyright © 2020 Eric Larson. All rights reserved.
 //
 
+//winnie houng
+//blake miller
+//jadon strong
+
 import UIKit
 import Metal
 
@@ -37,15 +41,7 @@ class ViewController: UIViewController {
             graph.addGraph(withName: "fft",
                             shouldNormalizeForFFT: true,
                             numPointsInGraph: AudioConstants.AUDIO_BUFFER_SIZE/2)
-            
-            
-//            graph.addGraph(withName: "equalize",
-//                            shouldNormalizeForFFT: true,
-//                            numPointsInGraph: 20)
-//
-//            graph.addGraph(withName: "time",
-//                numPointsInGraph: AudioConstants.AUDIO_BUFFER_SIZE)
-            
+
             graph.makeGrids() 
         }
         
